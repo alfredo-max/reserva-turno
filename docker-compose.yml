@@ -1,36 +1,20 @@
 version: '3.8'
-
 services:
   oracle-db:
-    image: gvenzl/oracle-xe:21-slim-faststart
+    image: gvenzl/oracle-xe:21-slim   # Recomiendo 21-slim; si necesitas 18, cámbialo.
     container_name: oracle-reserva-turno
     ports:
       - "1521:1521"
-      - "5500:5500"  # Oracle Enterprise Manager Express
+      - "5500:5500"
     environment:
-      # Database configuration
-      ORACLE_PASSWORD: Oracle123
-      ORACLE_DATABASE: RESERVADB
-      # Character set
-      ORACLE_CHARACTERSET: AL32UTF8
+      ORACLE_PASSWORD: "YourStrongPass123!"
+      ORACLE_DATABASE: "RESERVADB"        # Nombre del PDB (service name)
+      ORACLE_CHARACTERSET: "AL32UTF8"
     volumes:
-      # Persistence for database data
       - oracle_data:/opt/oracle/oradata
-      # Optional: Initialize scripts
-      - ./init-scripts:/container-entrypoint-initdb.d
-    networks:
-      - reserva-turno-network
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "healthcheck.sh"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-
+    shm_size: "1g"           # Importante para Oracle
+    # SIN restart
+    # SIN healthcheck
 volumes:
   oracle_data:
     driver: local
-
-networks:
-  reserva-turno-network:
-    driver: bridge
