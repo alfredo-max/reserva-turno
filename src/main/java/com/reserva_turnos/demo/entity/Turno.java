@@ -4,9 +4,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "turnos")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Turno {
     
     @Id
@@ -40,9 +48,7 @@ public class Turno {
         CANCELADO
     }
     
-    // Constructores
-    public Turno() {}
-    
+    // Constructor adicional para casos específicos
     public Turno(LocalDate fechaTurno, LocalTime horaInicio, LocalTime horaFin, 
                 EstadoTurno estado, Servicio servicio) {
         this.fechaTurno = fechaTurno;
@@ -50,65 +56,5 @@ public class Turno {
         this.horaFin = horaFin;
         this.estado = estado;
         this.servicio = servicio;
-    }
-    
-    // Getters y Setters
-    public Long getIdTurno() {
-        return idTurno;
-    }
-    
-    public void setIdTurno(Long idTurno) {
-        this.idTurno = idTurno;
-    }
-    
-    public LocalDate getFechaTurno() {
-        return fechaTurno;
-    }
-    
-    public void setFechaTurno(LocalDate fechaTurno) {
-        this.fechaTurno = fechaTurno;
-    }
-    
-    public LocalTime getHoraInicio() {
-        return horaInicio;
-    }
-    
-    public void setHoraInicio(LocalTime horaInicio) {
-        this.horaInicio = horaInicio;
-    }
-    
-    public LocalTime getHoraFin() {
-        return horaFin;
-    }
-    
-    public void setHoraFin(LocalTime horaFin) {
-        this.horaFin = horaFin;
-    }
-    
-    public EstadoTurno getEstado() {
-        return estado;
-    }
-    
-    public void setEstado(EstadoTurno estado) {
-        this.estado = estado;
-    }
-    
-    public Servicio getServicio() {
-        return servicio;
-    }
-    
-    public void setServicio(Servicio servicio) {
-        this.servicio = servicio;
-    }
-    
-    @Override
-    public String toString() {
-        return "Turno{" +
-                "idTurno=" + idTurno +
-                ", fechaTurno=" + fechaTurno +
-                ", horaInicio=" + horaInicio +
-                ", horaFin=" + horaFin +
-                ", estado=" + estado +
-                '}';
     }
 }

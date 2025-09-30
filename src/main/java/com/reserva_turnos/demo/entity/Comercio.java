@@ -3,9 +3,17 @@ package com.reserva_turnos.demo.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "comercios")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Comercio {
     
     @Id
@@ -23,53 +31,9 @@ public class Comercio {
     @JsonIgnore
     private List<Servicio> servicios;
     
-    // Constructores
-    public Comercio() {}
-    
+    // Constructor adicional para casos específicos
     public Comercio(String nomComercio, Integer aforoMaximo) {
         this.nomComercio = nomComercio;
         this.aforoMaximo = aforoMaximo;
-    }
-    
-    // Getters y Setters
-    public Long getIdComercio() {
-        return idComercio;
-    }
-    
-    public void setIdComercio(Long idComercio) {
-        this.idComercio = idComercio;
-    }
-    
-    public String getNomComercio() {
-        return nomComercio;
-    }
-    
-    public void setNomComercio(String nomComercio) {
-        this.nomComercio = nomComercio;
-    }
-    
-    public Integer getAforoMaximo() {
-        return aforoMaximo;
-    }
-    
-    public void setAforoMaximo(Integer aforoMaximo) {
-        this.aforoMaximo = aforoMaximo;
-    }
-    
-    public List<Servicio> getServicios() {
-        return servicios;
-    }
-    
-    public void setServicios(List<Servicio> servicios) {
-        this.servicios = servicios;
-    }
-    
-    @Override
-    public String toString() {
-        return "Comercio{" +
-                "idComercio=" + idComercio +
-                ", nomComercio='" + nomComercio + '\'' +
-                ", aforoMaximo=" + aforoMaximo +
-                '}';
     }
 }

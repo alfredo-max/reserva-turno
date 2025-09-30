@@ -5,9 +5,17 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalTime;
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "servicios")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Servicio {
     
     @Id
@@ -36,9 +44,7 @@ public class Servicio {
     @JsonIgnore
     private List<Turno> turnos;
     
-    // Constructores
-    public Servicio() {}
-    
+    // Constructor adicional para casos específicos
     public Servicio(String nomServicio, LocalTime horaApertura, LocalTime horaCierre, 
                    Integer duracion, Comercio comercio) {
         this.nomServicio = nomServicio;
@@ -46,73 +52,5 @@ public class Servicio {
         this.horaCierre = horaCierre;
         this.duracion = duracion;
         this.comercio = comercio;
-    }
-    
-    // Getters y Setters
-    public Long getIdServicio() {
-        return idServicio;
-    }
-    
-    public void setIdServicio(Long idServicio) {
-        this.idServicio = idServicio;
-    }
-    
-    public String getNomServicio() {
-        return nomServicio;
-    }
-    
-    public void setNomServicio(String nomServicio) {
-        this.nomServicio = nomServicio;
-    }
-    
-    public LocalTime getHoraApertura() {
-        return horaApertura;
-    }
-    
-    public void setHoraApertura(LocalTime horaApertura) {
-        this.horaApertura = horaApertura;
-    }
-    
-    public LocalTime getHoraCierre() {
-        return horaCierre;
-    }
-    
-    public void setHoraCierre(LocalTime horaCierre) {
-        this.horaCierre = horaCierre;
-    }
-    
-    public Integer getDuracion() {
-        return duracion;
-    }
-    
-    public void setDuracion(Integer duracion) {
-        this.duracion = duracion;
-    }
-    
-    public Comercio getComercio() {
-        return comercio;
-    }
-    
-    public void setComercio(Comercio comercio) {
-        this.comercio = comercio;
-    }
-    
-    public List<Turno> getTurnos() {
-        return turnos;
-    }
-    
-    public void setTurnos(List<Turno> turnos) {
-        this.turnos = turnos;
-    }
-    
-    @Override
-    public String toString() {
-        return "Servicio{" +
-                "idServicio=" + idServicio +
-                ", nomServicio='" + nomServicio + '\'' +
-                ", horaApertura=" + horaApertura +
-                ", horaCierre=" + horaCierre +
-                ", duracion=" + duracion +
-                '}';
     }
 }
