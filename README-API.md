@@ -82,27 +82,31 @@ Content-Type: application/json
 
 ### 4. Obtener Turnos (para mostrar en tabla)
 ```http
-GET /api/turnos/servicio/{idServicio}?fechaInicio=2024-10-10&fechaFin=2024-10-15
+GET /api/turnos/todos?page=0&size=20
 ```
+
+**Parámetros de Query:**
+- `page`: Número de página (0-indexado, opcional, por defecto 0)
+- `size`: Tamaño de la página (opcional, por defecto 20)
 
 **Respuesta:**
 ```json
-[
-  {
-    "idTurno": 1,
-    "idServicio": 1,
-    "fechaTurno": "2024-10-10",
-    "horaInicio": "09:00:00",
-    "horaFin": "09:30:00",
-    "estado": "DISPONIBLE",
-    "servicio": {
+{
+  "turnos": [
+    {
+      "idTurno": 1,
+      "fechaTurno": "2024-10-10",
+      "horaInicio": "09:00:00",
+      "horaFin": "09:30:00",
+      "estado": "DISPONIBLE",
       "nomServicio": "Lavado General",
-      "comercio": {
-        "nomComercio": "Car Center"
-      }
+      "nomComercio": "Car Center"
     }
-  }
-]
+  ],
+  "paginaActual": 0,
+  "totalItems": 25,
+  "totalPaginas": 2
+}
 ```
 
 ## Flujo de la página:
@@ -110,7 +114,7 @@ GET /api/turnos/servicio/{idServicio}?fechaInicio=2024-10-10&fechaFin=2024-10-15
 1. **Cargar página:** `GET /api/comercios` para llenar dropdown de comercios
 2. **Seleccionar comercio:** `GET /api/servicios/comercio/{id}` para llenar dropdown de servicios
 3. **Completar fechas y hacer clic en "Generar":** `POST /api/turnos/generar`
-4. **Mostrar tabla:** `GET /api/turnos/servicio/{id}` para mostrar los turnos generados
+4. **Mostrar tabla:** `GET /api/turnos/todos` para mostrar los turnos generados con paginación
 
 ## Configuración
 
