@@ -1,5 +1,6 @@
 package com.reserva_turnos.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class Comercio {
     private Integer aforoMaximo;
     
     @OneToMany(mappedBy = "comercio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Servicio> servicios;
     
     // Constructores

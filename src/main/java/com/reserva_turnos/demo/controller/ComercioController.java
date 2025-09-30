@@ -17,8 +17,8 @@ public class ComercioController {
     private ComercioRepository comercioRepository;
     
     /**
-     * Obtener todos los comercios para el dropdown
-     * @return lista de comercios
+     * Obtener todos los comercios para el dropdown sin incluir sus servicios
+     * @return lista de comercios sin servicios (excluidos por @JsonIgnore)
      */
     @GetMapping
     public ResponseEntity<List<Comercio>> obtenerTodosComercio() {

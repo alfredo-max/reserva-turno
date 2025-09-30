@@ -1,5 +1,7 @@
 package com.reserva_turnos.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalTime;
 import java.util.List;
@@ -27,9 +29,11 @@ public class Servicio {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_comercio", nullable = false)
+    @JsonIgnore
     private Comercio comercio;
     
     @OneToMany(mappedBy = "servicio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Turno> turnos;
     
     // Constructores

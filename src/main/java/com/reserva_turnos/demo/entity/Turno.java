@@ -1,5 +1,6 @@
 package com.reserva_turnos.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -38,6 +39,7 @@ public class Turno {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_servicio", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "turnos"})
     private Servicio servicio;
     
     // Enum para estado del turno

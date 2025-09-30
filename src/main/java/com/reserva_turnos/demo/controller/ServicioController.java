@@ -19,7 +19,7 @@ public class ServicioController {
     /**
      * Obtener servicios por comercio para el dropdown
      * @param idComercio ID del comercio seleccionado
-     * @return lista de servicios del comercio
+     * @return lista de servicios del comercio (sin campos relación)
      */
     @GetMapping("/comercio/{idComercio}")
     public ResponseEntity<List<Servicio>> obtenerServiciosPorComercio(@PathVariable Long idComercio) {
