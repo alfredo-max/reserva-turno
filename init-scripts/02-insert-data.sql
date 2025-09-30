@@ -1,9 +1,12 @@
 -- Datos de prueba para el Sistema de Reserva de Turnos
 
 -- Insertar comercios
-INSERT INTO comercios (nom_comercio, aforo_maximo) VALUES ('Car Center', 50);
-INSERT INTO comercios (nom_comercio, aforo_maximo) VALUES ('Centro Diseño', 30);
-INSERT INTO comercios (nom_comercio, aforo_maximo) VALUES ('Spa Relax', 20);
+INSERT INTO comercios (nom_comercio, aforo_maximo) 
+VALUES ('Car Center', 50);
+INSERT INTO comercios (nom_comercio, aforo_maximo) 
+VALUES ('Centro Diseño', 30);
+INSERT INTO comercios (nom_comercio, aforo_maximo)
+VALUES ('Spa Relax', 20);
 
 -- Insertar servicios para Car Center (id_comercio = 1)
 INSERT INTO servicios (id_comercio, nom_servicio, hora_apertura, hora_cierre, duracion) 

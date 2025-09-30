@@ -7,16 +7,6 @@ import java.time.LocalTime;
 
 @Entity
 @Table(name = "turnos")
-@NamedStoredProcedureQuery(
-    name = "generar_turnos_servicio",
-    procedureName = "GENERAR_TURNOS_SERVICIO",
-    parameters = {
-        @StoredProcedureParameter(name = "p_fecha_inicio", type = LocalDate.class, mode = ParameterMode.IN),
-        @StoredProcedureParameter(name = "p_fecha_fin", type = LocalDate.class, mode = ParameterMode.IN),
-        @StoredProcedureParameter(name = "p_id_servicio", type = Long.class, mode = ParameterMode.IN),
-        @StoredProcedureParameter(name = "p_cursor", type = void.class, mode = ParameterMode.REF_CURSOR)
-    }
-)
 public class Turno {
     
     @Id
@@ -39,7 +29,7 @@ public class Turno {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_servicio", nullable = false)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "turnos"})
+    @JsonIgnore
     private Servicio servicio;
     
     // Enum para estado del turno

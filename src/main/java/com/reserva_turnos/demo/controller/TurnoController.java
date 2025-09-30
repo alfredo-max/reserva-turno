@@ -1,7 +1,9 @@
 package com.reserva_turnos.demo.controller;
 
 import com.reserva_turnos.demo.dto.GenerarTurnosRequest;
+import com.reserva_turnos.demo.dto.TurnoResultDTO;
 import com.reserva_turnos.demo.entity.Turno;
+import com.reserva_turnos.demo.repository.TurnoRepository;
 import com.reserva_turnos.demo.service.GeneracionTurnoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +25,9 @@ public class TurnoController {
     @Autowired
     private GeneracionTurnoService generacionTurnoService;
     
+    @Autowired
+    private TurnoRepository turnoRepository;
+    
     /**
      * Endpoint principal para generar turnos - usado por el botón "Generar"
      * @param request datos de la petición (fechaInicio, fechaFin, idServicio)
@@ -30,7 +36,7 @@ public class TurnoController {
     @PostMapping("/generar")
     public ResponseEntity<?> generarTurnos(@Valid @RequestBody GenerarTurnosRequest request) {
         try {
-            List<Turno> turnosGenerados = generacionTurnoService.generarTurnos(
+            List<TurnoResultDTO> turnosGenerados = generacionTurnoService.generarTurnos(
                 request.getFechaInicio(), 
                 request.getFechaFin(), 
                 request.getIdServicio()
@@ -59,31 +65,25 @@ public class TurnoController {
      * @return lista de turnos
      */
     @GetMapping("/servicio/{idServicio}")
-    public ResponseEntity<List<Turno>> obtenerTurnosPorServicio(
+    public List<Turno> obtenerTurnosPorServicio(
             @PathVariable Long idServicio,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin) {
         
-        try {
-            List<Turno> turnos;
-            
-            if (fechaInicio != null && fechaFin != null) {
-                // Si se proporcionan ambas fechas, obtener turnos en ese rango
-                turnos = generacionTurnoService.generarTurnos(fechaInicio, fechaFin, idServicio);
-            } else if (fechaInicio != null) {
-                // Si solo se proporciona fecha inicio, obtener turnos de esa fecha
-                turnos = generacionTurnoService.obtenerTurnosPorFecha(idServicio, fechaInicio);
-            } else {
-                // Si no se proporcionan fechas, obtener turnos de hoy
-                turnos = generacionTurnoService.obtenerTurnosPorFecha(idServicio, LocalDate.now());
-            }
-            
-            return ResponseEntity.ok(turnos);
-            
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
+        // Si no se proporciona fecha inicio, usar la fecha actual
+        if (fechaInicio == null) {
+            fechaInicio = LocalDate.now();
         }
+        
+        // Si no se proporciona fecha fin, usar fecha inicio + 30 días
+        if (fechaFin == null) {
+            fechaFin = fechaInicio.plusDays(30);
+        }
+        
+        // TODO: En el futuro, considerar usar DTOs para estructurar mejor la respuesta
+        
+        // Obtener turnos usando el repositorio standard
+        return turnoRepository.findByServicioIdServicioAndFechaTurnoBetween(
+                idServicio, fechaInicio, fechaFin);
     }
-    
 
-}

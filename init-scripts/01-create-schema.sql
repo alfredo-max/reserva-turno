@@ -32,5 +32,4 @@ CREATE TABLE turnos (
     estado VARCHAR2(20) NOT NULL,
     CONSTRAINT fk_turno_servicio FOREIGN KEY (id_servicio) REFERENCES servicios(id_servicio),
     CONSTRAINT chk_estado_valido CHECK (estado IN ('DISPONIBLE', 'RESERVADO', 'COMPLETADO', 'CANCELADO')),
-    CONSTRAINT chk_horas_turno_validas CHECK (hora_fin > hora_inicio)
 );
