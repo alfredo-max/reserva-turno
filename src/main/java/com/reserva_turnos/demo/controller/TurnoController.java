@@ -1,6 +1,7 @@
 package com.reserva_turnos.demo.controller;
 
 import com.reserva_turnos.demo.dto.GenerarTurnosRequest;
+import com.reserva_turnos.demo.dto.TurnoInfoDTO;
 import com.reserva_turnos.demo.dto.TurnoResultDTO;
 import com.reserva_turnos.demo.entity.Turno;
 import com.reserva_turnos.demo.service.GeneracionTurnoService;
@@ -59,34 +60,14 @@ public class TurnoController {
     }
 
     /**
-     * Obtener turnos por servicio y rango de fechas - para mostrar en la tabla
+     * Obtener todos los turnos sin filtrado - para mostrar en la tabla
+     * Retorna un DTO simplificado con los campos: Comercio, Servicio, Fecha Turno, Hora Inicio y Hora Fin
      *
-     * @param idServicio  ID del servicio
-     * @param fechaInicio fecha de inicio (opcional)
-     * @param fechaFin    fecha de fin (opcional)
-     * @return lista de turnos
+     * @return lista de DTOs con la información básica de los turnos
      */
-    // mejora: que retorne un dto a la proxima
-    @GetMapping("/servicio/{idServicio}")
-    public List<Turno> obtenerTurnosPorServicio(
-            @PathVariable Long idServicio,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin) {
-
-        // Si no se proporciona fecha inicio, usar la fecha actual
-        if (fechaInicio == null) {
-            fechaInicio = LocalDate.now();
-        }
-
-        // Si no se proporciona fecha fin, usar fecha inicio + 30 días
-        if (fechaFin == null) {
-            fechaFin = fechaInicio.plusDays(30);
-        }
-
-        // TODO: En el futuro, considerar usar DTOs para estructurar mejor la respuesta
-
-        // Obtener turnos usando el servicio
-        return turnoService.obtenerTurnosPorServicio(idServicio, fechaInicio, fechaFin);
+    @GetMapping("/todos")
+    public List<TurnoInfoDTO> obtenerTodosTurnos() {
+        return turnoService.obtenerTodosTurnos();
     }
 }
 

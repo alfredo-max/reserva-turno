@@ -1,5 +1,6 @@
 package com.reserva_turnos.demo.service;
 
+import com.reserva_turnos.demo.dto.TurnoInfoDTO;
 import com.reserva_turnos.demo.entity.Turno;
 import com.reserva_turnos.demo.repository.TurnoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +28,10 @@ public class TurnoService {
     public List<Turno> obtenerTurnosPorServicio(Long idServicio, LocalDate fechaInicio, LocalDate fechaFin) {
         return turnoRepository.findByServicioIdServicioAndFechaTurnoBetween(
                 idServicio, fechaInicio, fechaFin);
+    }
+    
+
+    public List<TurnoInfoDTO> obtenerTodosTurnos() {
+        return turnoRepository.obtenerTodosTurnos();
     }
 }
