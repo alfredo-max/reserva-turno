@@ -8,6 +8,10 @@ import com.reserva_turnos.demo.service.GeneracionTurnoService;
 import com.reserva_turnos.demo.service.TurnoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -60,14 +64,33 @@ public class TurnoController {
     }
 
     /**
-     * Obtener todos los turnos sin filtrado - para mostrar en la tabla
+     * Obtener todos los turnos con paginación - para mostrar en la tabla
      * Retorna un DTO simplificado con los campos: Comercio, Servicio, Fecha Turno, Hora Inicio y Hora Fin
      *
-     * @return lista de DTOs con la información básica de los turnos
+     * @param page número de página (0-indexed, opcional, por defecto 0)
+     * @param size tamaño de la página (opcional, por defecto 10)
+     * @return respuesta que contiene la página de turnos y metadatos de paginación
      */
     @GetMapping("/todos")
-    public List<TurnoInfoDTO> obtenerTodosTurnos() {
-        return turnoService.obtenerTodosTurnos();
+    public ResponseEntity<Map<String, Object>> obtenerTodosTurnos(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
+        
+        // Crear configuración de paginación ordenada por fecha y hora
+        Pageable pageable = PageRequest.of(page, size, 
+                Sort.by("fechaTurno").ascending().and(Sort.by("horaInicio").ascending()));
+        
+        // Obtener la página de resultados
+        Page<TurnoInfoDTO> turnoPage = turnoService.obtenerTurnosPaginados(pageable);
+        
+        // Preparar respuesta con metadatos de paginación
+        Map<String, Object> respuesta = new HashMap<>();
+        respuesta.put("turnos", turnoPage.getContent());
+        respuesta.put("paginaActual", turnoPage.getNumber());
+        respuesta.put("totalItems", turnoPage.getTotalElements());
+        respuesta.put("totalPaginas", turnoPage.getTotalPages());
+        
+        return ResponseEntity.ok(respuesta);
     }
 }
 

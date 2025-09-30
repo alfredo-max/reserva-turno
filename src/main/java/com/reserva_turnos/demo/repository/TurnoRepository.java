@@ -3,6 +3,8 @@ package com.reserva_turnos.demo.repository;
 import com.reserva_turnos.demo.dto.TurnoInfoDTO;
 import com.reserva_turnos.demo.dto.TurnoResultDTO;
 import com.reserva_turnos.demo.entity.Turno;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -50,17 +52,17 @@ public interface TurnoRepository extends JpaRepository<Turno, Long> {
     List<Object[]> obtenerTurnosConDetalles(@Param("idServicio") Long idServicio,
                                            @Param("fechaInicio") LocalDate fechaInicio,
                                            @Param("fechaFin") LocalDate fechaFin);
-    
+        
     /**
-     * Consulta JPQL para obtener todos los turnos con información de comercio y servicio
-     * sin aplicar ningún filtro, usando proyección directa a DTO
-     * @return lista de TurnoInfoDTO generados directamente por la consulta
+     * Consulta JPQL para obtener todos los turnos con paginación
+     * @param pageable parámetros de paginación y ordenación
+     * @return página de TurnoInfoDTO
      */
-    @Query("SELECT c.nomComercio as comercio, s.nomServicio as servicio, t.fechaTurno as fechaTurno, " +
+    @Query("SELECT t.idTurno as id, c.nomComercio as comercio, s.nomServicio as servicio, t.fechaTurno as fechaTurno, " +
            "t.horaInicio as horaInicio, t.horaFin as horaFin " +
            "FROM Turno t " +
            "JOIN t.servicio s " +
            "JOIN s.comercio c " +
            "ORDER BY t.fechaTurno, t.horaInicio")
-    List<TurnoInfoDTO> obtenerTodosTurnos();
+    Page<TurnoInfoDTO> obtenerTurnosPaginados(Pageable pageable);
 }

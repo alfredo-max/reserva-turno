@@ -8,6 +8,7 @@ import java.time.LocalTime;
  * Interfaz de proyección para Spring Data JPA
  */
 public interface TurnoInfoDTO {
+    Long getId();
     String getComercio();
     String getServicio();
     LocalDate getFechaTurno();

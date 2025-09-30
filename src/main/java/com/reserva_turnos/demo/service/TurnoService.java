@@ -4,6 +4,8 @@ import com.reserva_turnos.demo.dto.TurnoInfoDTO;
 import com.reserva_turnos.demo.entity.Turno;
 import com.reserva_turnos.demo.repository.TurnoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,9 +31,13 @@ public class TurnoService {
         return turnoRepository.findByServicioIdServicioAndFechaTurnoBetween(
                 idServicio, fechaInicio, fechaFin);
     }
-    
 
-    public List<TurnoInfoDTO> obtenerTodosTurnos() {
-        return turnoRepository.obtenerTodosTurnos();
+    /**
+     * Obtener turnos paginados
+     * @param pageable configuración de paginación y ordenación
+     * @return página de turnos
+     */
+    public Page<TurnoInfoDTO> obtenerTurnosPaginados(Pageable pageable) {
+        return turnoRepository.obtenerTurnosPaginados(pageable);
     }
 }
