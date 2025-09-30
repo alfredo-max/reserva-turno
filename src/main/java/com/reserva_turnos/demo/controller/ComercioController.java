@@ -1,7 +1,7 @@
 package com.reserva_turnos.demo.controller;
 
 import com.reserva_turnos.demo.entity.Comercio;
-import com.reserva_turnos.demo.repository.ComercioRepository;
+import com.reserva_turnos.demo.service.ComercioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +14,7 @@ import java.util.List;
 public class ComercioController {
     
     @Autowired
-    private ComercioRepository comercioRepository;
+    private ComercioService comercioService;
     
     /**
      * Obtener todos los comercios para el dropdown sin incluir sus servicios
@@ -22,7 +22,7 @@ public class ComercioController {
      */
     @GetMapping
     public ResponseEntity<List<Comercio>> obtenerTodosComercio() {
-        List<Comercio> comercios = comercioRepository.findAll();
+        List<Comercio> comercios = comercioService.obtenerTodosLosComercio();
         return ResponseEntity.ok(comercios);
     }
 }

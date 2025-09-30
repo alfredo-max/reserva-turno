@@ -1,7 +1,7 @@
 package com.reserva_turnos.demo.controller;
 
 import com.reserva_turnos.demo.entity.Servicio;
-import com.reserva_turnos.demo.repository.ServicioRepository;
+import com.reserva_turnos.demo.service.ServicioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +14,7 @@ import java.util.List;
 public class ServicioController {
     
     @Autowired
-    private ServicioRepository servicioRepository;
+    private ServicioService servicioService;
     
     /**
      * Obtener servicios por comercio para el dropdown
@@ -23,7 +23,7 @@ public class ServicioController {
      */
     @GetMapping("/comercio/{idComercio}")
     public ResponseEntity<List<Servicio>> obtenerServiciosPorComercio(@PathVariable Long idComercio) {
-        List<Servicio> servicios = servicioRepository.findByComercioIdComercio(idComercio);
+        List<Servicio> servicios = servicioService.obtenerServiciosPorComercio(idComercio);
         return ResponseEntity.ok(servicios);
     }
 }
